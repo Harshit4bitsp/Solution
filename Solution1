@@ -1,0 +1,25 @@
+
+from urllib.request import urlopen
+
+import json
+
+url = "https://api.football-data.org/v2/competitions/"
+
+response = urlopen(url)
+
+az = json.loads(response.read())
+
+d=az["competitions"]
+import csv
+
+header = ['id', 'Name', 'Area/Country', 'Available Seasons','Tier']
+
+f = open('football.csv', 'w', encoding='UTF8', newline='')
+writer = csv.writer(f)
+writer.writerow(header)
+e=input(str("Enter the tier"))
+
+for i in d:
+    if i["plan"]==e:
+        data= [(i["id"],i["name"],i["area"]["name"],i["numberOfAvailableSeasons"], i["plan"])]
+        writer.writerows(data)
